@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { calculateProofAsync } from "../features/circom/circomSlice"; // 确保路径正确
+import { calculateProofAsync } from "../features/circom/circomSlice";
 import {
   Button,
   Text,
@@ -53,7 +53,7 @@ const CircomEditor = () => {
   };
 
   return (
-    <VStack spacing={4} margin="20px" color="ethereum.800">
+    <VStack spacing={4} width="full" margin="20px" color="ethereum.800">
       <Text fontSize="2xl" color="ethereum.600">
         Circom example
       </Text>

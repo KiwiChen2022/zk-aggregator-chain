@@ -1,36 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useEthereum } from "../contexts/EthereumContext";
 import { ethers } from "ethers";
 import { Button, Text, useToast, Box } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDeploymentInfo } from "../features/deployment/deploymentSlice";
 
 const ContractDeployer = () => {
-  const { account, signer, connect, error: ethereumError } = useEthereum();
-  const [contractABI, setContractABI] = useState(null);
-  const [contractBytecode, setContractBytecode] = useState(null);
+  const { account, signer, connect, _: ethereumError } = useEthereum();
+
   const toast = useToast();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const url = `${process.env.PUBLIC_URL}/Groth16Verifier.json`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setContractABI(data.abi);
-        setContractBytecode(data.bytecode);
-      })
-      .catch((error) => {
-        console.error("Failed to load contract data", error);
-        toast({
-          title: "Error",
-          description: "Failed to load contract data.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      });
-  }, []);
+  const {
+    abi,
+    bytecode,
+    status,
+    _: contractDataError,
+  } = useSelector((state) => state.contractData);
 
   const deployContract = async () => {
     if (!signer) {
@@ -47,12 +32,19 @@ const ContractDeployer = () => {
       }
     }
 
+    if (status !== "succeeded") {
+      toast({
+        title: "Error",
+        description: "Verifier Contract data not ready.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
     try {
-      const factory = new ethers.ContractFactory(
-        contractABI,
-        contractBytecode,
-        signer
-      );
+      const factory = new ethers.ContractFactory(abi, bytecode, signer);
       const contractWithTx = await factory.deploy(); // constructor arguments, if any
       const txReceipt = await contractWithTx.deployTransaction.wait();
 
