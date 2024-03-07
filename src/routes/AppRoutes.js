@@ -9,7 +9,7 @@ function AppRoutes() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<CircomEditorPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/editor" element={<CircomEditorPage />} />
         {/* other routes */}
       </Routes>

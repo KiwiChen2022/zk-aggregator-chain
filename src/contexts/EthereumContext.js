@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
-import { Web3Provider } from "@ethersproject/providers";
+import { ethers } from "ethers";
 
 const EthereumContext = createContext();
 
 export const useEthereum = () => useContext(EthereumContext);
 
 const checkNetwork = async (provider) => {
-  const expectedChainId = 1001;
+  const expectedChainId = 31337;
   const network = await provider.getNetwork();
   if (network.chainId !== expectedChainId) {
     return false;
@@ -16,7 +16,9 @@ const checkNetwork = async (provider) => {
 
 export const EthereumProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
+  const [provider, setProvider] = useState(null);
   const [error, setError] = useState("");
+  const [signer, setSigner] = useState(null);
 
   const connect = async () => {
     if (!window.ethereum) {
@@ -25,17 +27,24 @@ export const EthereumProvider = ({ children }) => {
     }
 
     try {
-      const provider = new Web3Provider(window.ethereum);
+      // const provider = new JsonRpcProvider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      setProvider(provider);
       const networkOk = await checkNetwork(provider);
       if (!networkOk) {
         setError("You're connected to an unsupported network.");
         return;
       }
 
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setAccount(accounts[0]);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const account = await signer.getAddress();
+
+      // const accounts = await window.ethereum.request({
+      //   method: "eth_requestAccounts",
+      // });
+      setAccount(account);
+      setSigner(signer);
       setError("");
     } catch (error) {
       console.error("Failed to connect MetaMask", error);
@@ -44,7 +53,9 @@ export const EthereumProvider = ({ children }) => {
   };
 
   return (
-    <EthereumContext.Provider value={{ account, connect, error }}>
+    <EthereumContext.Provider
+      value={{ account, provider, signer, connect, error }}
+    >
       {children}
     </EthereumContext.Provider>
   );
