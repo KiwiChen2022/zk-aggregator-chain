@@ -24,7 +24,7 @@ export const calculateProofAsync = createAsyncThunk(
 
       return {
         proof: JSON.stringify(proof, null, 2),
-        publicSignals,
+        publicSignals: JSON.stringify(publicSignals, null, 2),
         verificationResult,
       };
     } catch (error) {
@@ -37,7 +37,7 @@ export const circomSlice = createSlice({
   name: "circom",
   initialState: {
     proof: "",
-    publicSignals: [],
+    publicSignals: "",
     verificationResult: false,
     status: "idle", // 'idle', 'loading', 'succeeded', 'failed'
     error: null,
@@ -45,7 +45,7 @@ export const circomSlice = createSlice({
   reducers: {
     resetCircomState: (state) => {
       state.proof = "";
-      state.publicSignals = [];
+      state.publicSignals = "";
       state.verificationResult = false;
       state.status = "idle";
       state.error = null;

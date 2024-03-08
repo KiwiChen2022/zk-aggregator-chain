@@ -1,59 +1,65 @@
-import React, { useEffect, useState } from "react";
-import { useEthereum } from "../contexts/EthereumContext";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { ethers } from "ethers";
+import { useEthereum } from "../contexts/EthereumContext";
+import { Button, Text, VStack, Alert, AlertIcon } from "@chakra-ui/react";
 
 const ContractInteraction = () => {
   const { signer } = useEthereum();
   const { contractAddress } = useSelector((state) => state.deployment);
   const { proof, publicSignals } = useSelector((state) => state.circom);
+  const { abi } = useSelector((state) => state.contractData);
   const [verificationResult, setVerificationResult] = useState(null);
   const [error, setError] = useState("");
 
-  const abi = [
-    /* ABI array from Groth16Verifier.json */
-  ];
-  const bytecode = "bytecode from Groth16Verifier.json";
-
-  useEffect(() => {
+  const verifyProof = async () => {
     if (!contractAddress || !proof || !publicSignals.length || !signer) {
       setError("Missing data for contract interaction");
       return;
     }
 
-    const contract = new ethers.Contract(contractAddress, abi, signer);
+    try {
+      const contract = new ethers.Contract(contractAddress, abi, signer);
 
-    const verifyProof = async () => {
-      try {
-        const parsedProof = JSON.parse(proof);
-        const _pA = parsedProof.pi_a;
-        const _pB = parsedProof.pi_b;
-        const _pC = parsedProof.pi_c;
-        const _pubSignals = publicSignals;
+      const parsedProof = JSON.parse(proof);
+      const parsedpublicSignals = JSON.parse(publicSignals);
+      const rawcalldata = await window.snarkjs.groth16.exportSolidityCallData(
+        parsedProof,
+        parsedpublicSignals
+      );
 
-        const result = await contract.verifyProof(_pA, _pB, _pC, _pubSignals);
-        setVerificationResult(result);
-      } catch (err) {
-        setError("Contract interaction failed: " + err.message);
-      }
-    };
+      let jsonCalldata = JSON.parse("[" + rawcalldata + "]");
 
-    verifyProof();
-  }, [contractAddress, proof, publicSignals, signer]);
+      const result = await contract.verifyProof(
+        jsonCalldata[0],
+        jsonCalldata[1],
+        jsonCalldata[2],
+        jsonCalldata[3]
+      );
+      setVerificationResult(result);
+    } catch (err) {
+      setError("Contract interaction failed: " + err.message);
+    }
+  };
 
   return (
-    <div>
-      {error ? (
-        <p>Error: {error}</p>
-      ) : (
-        <p>
-          Verification Result:{" "}
-          {verificationResult !== null
-            ? verificationResult.toString()
-            : "Loading..."}
-        </p>
+    <VStack spacing={4}>
+      <Button colorScheme="blue" onClick={verifyProof}>
+        Verify Proof on Chain
+      </Button>
+      {error && (
+        <Alert status="error">
+          <AlertIcon />
+          {error}
+        </Alert>
       )}
-    </div>
+      {verificationResult !== null && (
+        <Alert status="success">
+          <AlertIcon />
+          Verification Result: {verificationResult.toString()}
+        </Alert>
+      )}
+    </VStack>
   );
 };
 
