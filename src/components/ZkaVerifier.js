@@ -11,7 +11,9 @@ import { ethers } from "ethers";
 
 const ZkaVerifier = () => {
   const { signer } = useEthereum();
-  const deploymentInfo = useSelector((state) => state.deployment);
+  const contractInteractionInfo = useSelector(
+    (state) => state.contractInteraction
+  );
   const [deploying, setDeploying] = useState(false);
   const toast = useToast();
   const [verifying, setVerifying] = useState(false);
@@ -48,7 +50,7 @@ const ZkaVerifier = () => {
           zkpVerifierName,
           url,
           deployer,
-          deploymentInfo.contractAddress
+          contractInteractionInfo.contractAddress
           //   await plonk2MockVerifier.getAddress()
         );
       await tx.wait();

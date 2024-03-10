@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ethers } from "ethers";
 import { useEthereum } from "../contexts/EthereumContext";
 import { Button, Text, VStack, Alert, AlertIcon } from "@chakra-ui/react";
+import { setContractInteractionInfo } from "../features/contract/contractInteractionSlice";
 
 const VerifierContractOrigin = () => {
+  const dispatch = useDispatch();
   const { signer } = useEthereum();
-  const { contractAddress } = useSelector((state) => state.deployment);
+  const { contractAddress } = useSelector((state) => state.contractInteraction);
   const { proof, publicSignals } = useSelector((state) => state.circom);
   const { abi } = useSelector((state) => state.contractData);
   const [verificationResult, setVerificationResult] = useState(null);
@@ -37,6 +39,39 @@ const VerifierContractOrigin = () => {
         jsonCalldata[3]
       );
       setVerificationResult(result);
+
+      // test
+      // const transactionResponse = await contract.verifyProof(
+      //   jsonCalldata[0],
+      //   jsonCalldata[1],
+      //   jsonCalldata[2],
+      //   jsonCalldata[3]
+      // );
+      // await transactionResponse.wait();
+
+      // const txReceipt = await signer.provider.getTransactionReceipt(
+      //   transactionResponse.hash
+      // );
+      // const tx = await signer.provider.getTransaction(transactionResponse.hash);
+      // const gasUsed = txReceipt.gasUsed;
+      // const gasPrice = tx.gasPrice;
+      // const totalGasCost = gasUsed.mul(gasPrice);
+
+      // const network = await signer.provider.getNetwork();
+      // const chainId = network.chainId;
+      // const chainName = network.name ? network.name : `Chain ID: ${chainId}`;
+
+      // dispatch(
+      //   setContractInteractionInfo({
+      //     operationName: "Verify Proof",
+      //     chainName: chainName,
+      //     chainId: chainId,
+      //     transactionHash: transactionResponse.hash,
+      //     gasUsed: gasUsed.toString(),
+      //     gasPrice: ethers.utils.formatUnits(gasPrice, "gwei"),
+      //     totalCost: ethers.utils.formatEther(totalGasCost),
+      //   })
+      // );
     } catch (err) {
       setError("Contract interaction failed: " + err.message);
     }

@@ -3,7 +3,7 @@ import { useEthereum } from "../contexts/EthereumContext";
 import { ethers } from "ethers";
 import { Button, Text, useToast, Box } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setDeploymentInfo } from "../features/deployment/deploymentSlice";
+import { setContractInteractionInfo } from "../features/contract/contractInteractionSlice";
 
 const ContractDeployer = () => {
   const { account, signer, connect, _: ethereumError } = useEthereum();
@@ -70,9 +70,10 @@ const ContractDeployer = () => {
       const transactionHash = txReceipt.transactionHash;
 
       dispatch(
-        setDeploymentInfo({
+        setContractInteractionInfo({
           chainName: chainName,
           chainId: chainId,
+          operationName: "Deploy Contract",
           transactionHash: transactionHash,
           contractAddress: contractWithTx.address,
           gasUsed: gasUsed.toString(),
