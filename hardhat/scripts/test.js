@@ -4,11 +4,12 @@ const { ZkProofAggregator } = require("zkproofaggregator-sdk");
 async function main() {
   const [deployer] = await ethers.getSigners();
 
-  const zkProofAggregator = new ZkProofAggregator(deployer);
+  const zkProofAggregator = new ZkProofAggregator(
+    deployer,
+    "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
+  );
 
-  await zkProofAggregator.deploy();
-
-  const zkaState = zkProofAggregator.getConfig();
+  const zkaState = await zkProofAggregator.fetchVerifiersMeta();
 
   console.log(zkaState);
 }

@@ -3,7 +3,8 @@ import CircomEditor from "../components/CircomEditor";
 import ContractDeployer from "../components/ContractDeployer";
 import Dashboard from "../components/Dashbroad";
 import { VStack } from "@chakra-ui/react";
-import ContractInteraction from "../components/ContractInteraction";
+import VerifierContractOrigin from "../components/VerifierContractOrigin";
+import ZkaVerifier from "../components/ZkaVerifier";
 
 const CircomEditorPage = () => {
   return (
@@ -11,7 +12,8 @@ const CircomEditorPage = () => {
       <CircomEditor />
       <ContractDeployer />
       <Dashboard />
-      <ContractInteraction />
+      <VerifierContractOrigin />
+      <ZkaVerifier />
 
       {/* Parse Error Dialog */}
     </VStack>

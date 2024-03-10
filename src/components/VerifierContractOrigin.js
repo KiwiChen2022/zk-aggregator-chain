@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { useEthereum } from "../contexts/EthereumContext";
 import { Button, Text, VStack, Alert, AlertIcon } from "@chakra-ui/react";
 
-const ContractInteraction = () => {
+const VerifierContractOrigin = () => {
   const { signer } = useEthereum();
   const { contractAddress } = useSelector((state) => state.deployment);
   const { proof, publicSignals } = useSelector((state) => state.circom);
@@ -63,4 +63,4 @@ const ContractInteraction = () => {
   );
 };
 
-export default ContractInteraction;
+export default VerifierContractOrigin;
