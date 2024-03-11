@@ -77,8 +77,8 @@ const ContractDeployer = () => {
           transactionHash: transactionHash,
           contractAddress: contractWithTx.address,
           gasUsed: gasUsed.toString(),
-          gasPrice: ethers.utils.formatUnits(gasPrice, "gwei"),
-          totalCost: ethers.utils.formatEther(totalGasCost),
+          gasPrice: ethers.formatUnits(gasPrice, "gwei"),
+          totalCost: ethers.formatEther(totalGasCost),
         })
       );
 
@@ -86,10 +86,10 @@ const ContractDeployer = () => {
         title: "Contract Deployment Successful",
         description: `Contract deployed at ${
           contractWithTx.address
-        }. Gas Details: Used - ${gasUsed.toString()} units, Price - ${ethers.utils.formatUnits(
+        }. Gas Details: Used - ${gasUsed.toString()} units, Price - ${ethers.formatUnits(
           gasPrice,
           "gwei"
-        )} Gwei, Total Cost - ${ethers.utils.formatEther(totalGasCost)} ETH.`,
+        )} Gwei, Total Cost - ${ethers.formatEther(totalGasCost)} ETH.`,
         status: "success",
         duration: 9000,
         isClosable: true,

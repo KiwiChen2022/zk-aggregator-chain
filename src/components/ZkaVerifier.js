@@ -91,78 +91,83 @@ const ZkaVerifier = () => {
     }
 
     setVerifying(true);
-    // try {
-    console.log("I am here!");
-    const zkaFactoryAddress = process.env.REACT_APP_ZKA_FACTORY_ADDRESS;
-    const zkpproofAggregator = new ZkProofAggregator(signer, zkaFactoryAddress);
-    // console.log("I am here!!");
-    // const parsedProof = JSON.parse(proof);
-    // const parsedPublicSignals = JSON.parse(publicSignals);
-    // const rawCallData = await window.snarkjs.groth16.exportSolidityCallData(
-    //   parsedProof,
-    //   parsedPublicSignals
-    // );
+    try {
+      console.log("I am here!");
+      const zkaFactoryAddress = process.env.REACT_APP_ZKA_FACTORY_ADDRESS;
+      const zkpproofAggregator = new ZkProofAggregator(
+        signer,
+        zkaFactoryAddress
+      );
+      console.log("I am here!!");
+      // const parsedProof = JSON.parse(proof);
+      // const parsedPublicSignals = JSON.parse(publicSignals);
+      // const rawCallData = await window.snarkjs.groth16.exportSolidityCallData(
+      //   parsedProof,
+      //   parsedPublicSignals
+      // );
 
-    // let jsonCallData = JSON.parse("[" + rawCallData + "]");
-    // //   let zka_proof = abi.encodeWithSignature;
+      // let jsonCallData = JSON.parse("[" + rawCallData + "]");
+      // //   let zka_proof = abi.encodeWithSignature;
 
-    // //   const encodedData = ethers.utils.defaultAbiCoder.encode(
-    // //     ["uint256[2]", "uint256[2][2]", "uint256[2]", "uint256[1]"],
-    // //     [jsonCallData[0], jsonCallData[1], jsonCallData[2], jsonCallData[3]]
-    // //   );
+      // //   const encodedData = ethers.utils.defaultAbiCoder.encode(
+      // //     ["uint256[2]", "uint256[2][2]", "uint256[2]", "uint256[1]"],
+      // //     [jsonCallData[0], jsonCallData[1], jsonCallData[2], jsonCallData[3]]
+      // //   );
 
-    // const iface = new ethers.utils.Interface([
-    //   "function verifyProof(uint256[2], uint256[2][2], uint256[2], uint256[1])",
-    // ]);
-    // const encodedData = iface.encodeFunctionData("verifyProof", [
-    //   jsonCallData[0],
-    //   jsonCallData[1],
-    //   jsonCallData[2],
-    //   jsonCallData[3],
-    // ]);
+      // const iface = new ethers.utils.Interface([
+      //   "function verifyProof(uint256[2], uint256[2][2], uint256[2], uint256[1])",
+      // ]);
+      // const encodedData = iface.encodeFunctionData("verifyProof", [
+      //   jsonCallData[0],
+      //   jsonCallData[1],
+      //   jsonCallData[2],
+      //   jsonCallData[3],
+      // ]);
 
-    // let plonk2MockVerifier = await new VerifierMock__factory(signer).deploy();
-    // console.log("I am here!!!");
+      // let plonk2MockVerifier = await new VerifierMock__factory(signer).deploy();
 
-    // let plonk2MockVerifier =
-    //   await mock_proof_factory.deploymentTransaction.wait();
+      // let plonk2MockVerifier =
+      //   await mock_proof_factory.deploymentTransaction.wait();
 
-    // let proofMock = await plonk2MockVerifier.getVerifyCalldata("for test");
-    let proofMock =
-      "0x8e760afe000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000570726f6f660000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008666f722074657374000000000000000000000000000000000000000000000000";
-    // console.log("I am here!!!!");
-    const zkpVerifierAddress = await zkpproofAggregator.fetchVerifiersMeta();
-    const currentVerifier = zkpVerifierAddress[0].verifierAddress;
+      // let proofMock = await plonk2MockVerifier.getVerifyCalldata("for test");
+      let proofMock =
+        "0x8e760afe000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000570726f6f660000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008666f722074657374000000000000000000000000000000000000000000000000";
+      console.log(zkpproofAggregator);
+      // const zkpVerifierAddress = await zkpproofAggregator.fetchVerifiersMeta();
+      console.log("I am here!!!");
 
-    // console.log(proofMock);
-    console.log("currentVerifier: ", currentVerifier);
-    console.log(zkpproofAggregator.getConfig());
+      // const currentVerifier = zkpVerifierAddress[0].verifierAddress;
 
-    const tx = await zkpproofAggregator.zkpVerify(
-      // process.env.REACT_APP_ZKP_VERIFIER_ADDRESS,
-      currentVerifier,
-      proofMock
-    );
-    await tx.wait();
-    console.log(tx);
-    //   toast({
-    //     title: "Verification Successful",
-    //     description: "The zkproof has been verified successfully.",
-    //     status: "success",
-    //     duration: 9000,
-    //     isClosable: true,
-    //   });
-    // } catch (e) {
-    //   toast({
-    //     title: "Verification Failed",
-    //     description: `Error: ${e.message}`,
-    //     status: "error",
-    //     duration: 9000,
-    //     isClosable: true,
-    //   });
-    // } finally {
-    //   setVerifying(false);
-    // }
+      // console.log(proofMock);
+      // console.log("currentVerifier: ", currentVerifier);
+      console.log(zkpproofAggregator.getConfig());
+
+      const tx = await zkpproofAggregator.zkpVerify(
+        process.env.REACT_APP_ZKP_VERIFIER_ADDRESS,
+        // currentVerifier,
+        proofMock
+      );
+      console.log("I am here!!!!");
+      await tx.wait();
+      console.log(tx);
+      toast({
+        title: "Verification Successful",
+        description: "The zkproof has been verified successfully.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (e) {
+      toast({
+        title: "Verification Failed",
+        description: `Error: ${e.message}`,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      setVerifying(false);
+    }
   };
 
   return (
