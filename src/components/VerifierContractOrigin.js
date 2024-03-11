@@ -61,6 +61,7 @@ const VerifierContractOrigin = () => {
       // const chainId = network.chainId;
       // const chainName = network.name ? network.name : `Chain ID: ${chainId}`;
 
+      // update dashboard
       // dispatch(
       //   setContractInteractionInfo({
       //     operationName: "Verify Proof",
@@ -72,6 +73,24 @@ const VerifierContractOrigin = () => {
       //     totalCost: ethers.utils.formatEther(totalGasCost),
       //   })
       // );
+
+      // update Verification result
+
+      // const contractInterface = new ethers.utils.Interface(abi);
+      // const event = txReceipt.logs
+      //   .map((log) => contractInterface.parseLog(log))
+      //   .find((log) => log.name === "VerificationResult");
+
+      // if (event) {
+      //   const result = event.args.result;
+      //   console.log("Verification result:", result);
+      //   console.log("Event", event);
+      //   setVerificationResult(result);
+      // } else {
+      //   console.log("VerificationResult event not found.");
+      // }
+
+      // console.log(transactionResponse);
     } catch (err) {
       setError("Contract interaction failed: " + err.message);
     }

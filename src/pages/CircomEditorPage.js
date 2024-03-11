@@ -10,9 +10,9 @@ const CircomEditorPage = () => {
   return (
     <VStack spacing={4} margin="20px" color="ethereum.800">
       <CircomEditor />
-      <ContractDeployer />
-      <Dashboard />
-      <VerifierContractOrigin />
+      {/* <ContractDeployer /> */}
+      {/* <Dashboard /> */}
+      {/* <VerifierContractOrigin /> */}
       <ZkaVerifier />
 
       {/* Parse Error Dialog */}
