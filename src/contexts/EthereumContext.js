@@ -37,8 +37,8 @@ export const EthereumProvider = ({ children }) => {
       }
 
       await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      const account = (await signer).address;
+      const signer = await provider.getSigner();
+      const account = signer.address;
 
       // const accounts = await window.ethereum.request({
       //   method: "eth_requestAccounts",

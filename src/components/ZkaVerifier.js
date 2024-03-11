@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEthereum } from "../contexts/EthereumContext";
 import {
   ZkProofAggregator,
@@ -8,9 +8,11 @@ import {
 } from "zkproofaggregator-sdk";
 import { Button, Text, Box, useToast, VStack } from "@chakra-ui/react";
 import { ethers } from "ethers";
+import { setContractInteractionInfo } from "../features/contract/contractInteractionSlice";
 
 const ZkaVerifier = () => {
-  const { signer } = useEthereum();
+  const dispatch = useDispatch();
+  const { account, provider, signer, connect, error } = useEthereum();
   const contractInteractionInfo = useSelector(
     (state) => state.contractInteraction
   );
@@ -148,8 +150,33 @@ const ZkaVerifier = () => {
         proofMock
       );
       console.log("I am here!!!!");
-      await tx.wait();
-      console.log(tx);
+      const txReceipt = await tx.wait();
+      console.log("tx:", tx);
+      console.log("receipt: ", txReceipt);
+      const gasUsed = txReceipt.gasUsed;
+
+      const gasPrice = txReceipt.gasPrice;
+      const totalGasCost = gasUsed * gasPrice;
+      const network = await provider.getNetwork();
+      console.log(network);
+      const chainId = network.chainId.toString();
+      const chainName = network.name ? network.name : `Chain ID: ${chainId}`; // in case no name
+
+      const transactionHash = txReceipt.hash;
+
+      dispatch(
+        setContractInteractionInfo({
+          chainName: chainName,
+          chainId: chainId,
+          operationName: "zkpVerify",
+          transactionHash: transactionHash,
+          contractAddress: tx.to,
+          gasUsed: gasUsed.toString(),
+          gasPrice: ethers.formatUnits(gasPrice, "gwei"),
+          totalCost: ethers.formatEther(totalGasCost),
+        })
+      );
+
       toast({
         title: "Verification Successful",
         description: "The zkproof has been verified successfully.",
