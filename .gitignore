@@ -24,3 +24,5 @@ yarn-error.log*
 
 package-lock.json
 /hardhat/node_modules
+
+.env

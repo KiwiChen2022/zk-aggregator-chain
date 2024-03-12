@@ -6,16 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setContractInteractionInfo } from "../features/contract/contractInteractionSlice";
 
 const ContractDeployer = () => {
-  const { account, signer, connect, _: ethereumError } = useEthereum();
+  const { account, signer, connect } = useEthereum();
 
   const toast = useToast();
   const dispatch = useDispatch();
-  const {
-    abi,
-    bytecode,
-    status,
-    _: contractDataError,
-  } = useSelector((state) => state.contractData);
+  const { abi, bytecode, status } = useSelector((state) => state.contractData);
 
   const deployContract = async () => {
     if (!signer) {
@@ -45,8 +40,9 @@ const ContractDeployer = () => {
 
     try {
       const factory = new ethers.ContractFactory(abi, bytecode, signer);
-      const contractWithTx = await factory.deploy(); // constructor arguments, if any
-      const txReceipt = await contractWithTx.deployTransaction.wait();
+      const contractWithTx = await factory.deploy();
+      const txReceipt = await contractWithTx.deploymentTransaction().wait();
+      const contractAddress = await contractWithTx.getAddress();
 
       toast({
         title: "Deploying",
@@ -56,18 +52,16 @@ const ContractDeployer = () => {
         isClosable: true,
       });
 
+      // gas fee calculation
       const gasUsed = txReceipt.gasUsed;
-      const tx = await signer.provider.getTransaction(
-        txReceipt.transactionHash
-      );
-      const gasPrice = tx.gasPrice;
-      const totalGasCost = gasUsed.mul(gasPrice);
+      const gasPrice = txReceipt.gasPrice;
+      const totalGasCost = gasUsed * gasPrice;
 
       const network = await signer.provider.getNetwork();
-      const chainId = network.chainId;
+      const chainId = network.chainId.toString();
       const chainName = network.name ? network.name : `Chain ID: ${chainId}`; // in case no name
 
-      const transactionHash = txReceipt.transactionHash;
+      const transactionHash = txReceipt.hash;
 
       dispatch(
         setContractInteractionInfo({
@@ -75,7 +69,7 @@ const ContractDeployer = () => {
           chainId: chainId,
           operationName: "Deploy Contract",
           transactionHash: transactionHash,
-          contractAddress: contractWithTx.address,
+          contractAddress: contractAddress,
           gasUsed: gasUsed.toString(),
           gasPrice: ethers.formatUnits(gasPrice, "gwei"),
           totalCost: ethers.formatEther(totalGasCost),
@@ -84,9 +78,7 @@ const ContractDeployer = () => {
 
       toast({
         title: "Contract Deployment Successful",
-        description: `Contract deployed at ${
-          contractWithTx.address
-        }. Gas Details: Used - ${gasUsed.toString()} units, Price - ${ethers.formatUnits(
+        description: `Contract deployed at ${contractAddress}. Gas Details: Used - ${gasUsed.toString()} units, Price - ${ethers.formatUnits(
           gasPrice,
           "gwei"
         )} Gwei, Total Cost - ${ethers.formatEther(totalGasCost)} ETH.`,
@@ -109,13 +101,8 @@ const ContractDeployer = () => {
   return (
     <Box padding="4" bg="ethereum.200" boxShadow="md" borderRadius="md">
       <Button colorScheme="blue" onClick={deployContract}>
-        Deploy The Pre-compiled Contract
+        Deploy The Pre-compiled Circom Verifier Contract
       </Button>
-      {ethereumError && (
-        <Text color="red.500" mt="4">
-          {ethereumError}
-        </Text>
-      )}
     </Box>
   );
 };

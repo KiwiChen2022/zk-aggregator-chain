@@ -6,7 +6,8 @@ const EthereumContext = createContext();
 export const useEthereum = () => useContext(EthereumContext);
 
 const checkNetwork = async (provider) => {
-  // const expectedChainId = "0x7A69";
+  // should be process.env, todo after establishing the test chain environment
+  // const expectedChainId = BigInt("0x7A69"); //31337
   // const network = await provider.getNetwork();
   // if (network.chainId !== expectedChainId) {
   //   return false;
@@ -27,7 +28,6 @@ export const EthereumProvider = ({ children }) => {
     }
 
     try {
-      // const provider = new JsonRpcProvider(window.ethereum);
       const provider = new ethers.BrowserProvider(window.ethereum);
       setProvider(provider);
       const networkOk = await checkNetwork(provider);
@@ -40,9 +40,6 @@ export const EthereumProvider = ({ children }) => {
       const signer = await provider.getSigner();
       const account = signer.address;
 
-      // const accounts = await window.ethereum.request({
-      //   method: "eth_requestAccounts",
-      // });
       setAccount(account);
       setSigner(signer);
       setError("");
