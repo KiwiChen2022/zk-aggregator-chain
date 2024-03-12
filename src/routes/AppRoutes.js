@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import CircomEditorPage from "../pages/CircomEditorPage";
 import Navbar from "../components/Navbar";
+import { Flex } from "@chakra-ui/react";
 
 function AppRoutes() {
   return (

@@ -99,11 +99,9 @@ const ContractDeployer = () => {
   };
 
   return (
-    <Box padding="4" bg="ethereum.200" boxShadow="md" borderRadius="md">
-      <Button colorScheme="blue" onClick={deployContract}>
-        Deploy The Pre-compiled Circom Verifier Contract
-      </Button>
-    </Box>
+    <Button colorScheme="blue" onClick={deployContract}>
+      Deploy The Pre-compiled Circom Verifier Contract
+    </Button>
   );
 };
 

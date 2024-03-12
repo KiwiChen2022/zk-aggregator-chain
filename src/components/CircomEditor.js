@@ -16,6 +16,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   useDisclosure,
+  HStack,
 } from "@chakra-ui/react";
 import Editor from "@monaco-editor/react";
 
@@ -53,15 +54,30 @@ const CircomEditor = () => {
   };
 
   return (
-    <VStack spacing={4} width="full" margin="20px" color="ethereum.800">
+    <VStack spacing={4} width="80%" margin="20px" color="ethereum.800">
       <Text fontSize="2xl" color="ethereum.600">
         Circom example
       </Text>
-      <Textarea
-        placeholder="Enter input data as JSON"
-        value={inputJson}
-        onChange={(e) => setInputJson(e.target.value)}
-      />
+
+      <HStack width="full" spacing={4}>
+        <Box flexShrink={0}>
+          <Text mb={1} color="ethereum.600">
+            CIRCUIT INPUT:
+          </Text>
+        </Box>
+        <Textarea
+          placeholder="Enter input data as JSON"
+          value={inputJson}
+          onChange={(e) => setInputJson(e.target.value)}
+          flex={1} // Makes Textarea take up the remaining space
+          resize="none"
+          overflowY="auto" // Allows vertical scrolling within the Textarea
+          border="2px"
+          borderColor="ethereum.300"
+          borderRadius="md"
+        />
+      </HStack>
+
       <Box width="100%">
         <Editor
           height="400px"
@@ -113,7 +129,6 @@ const CircomEditor = () => {
           </Box>
         </>
       )}
-      {status === "failed" && <Text color="red.500">{error}</Text>}
 
       {/* Parse Error Dialog */}
       <AlertDialog
