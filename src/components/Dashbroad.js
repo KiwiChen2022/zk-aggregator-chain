@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Box, Text, VStack, Badge } from "@chakra-ui/react";
+import axios from "axios";
 
 const Dashboard = () => {
   const contractInteraction = useSelector((state) => state.contractInteraction);
+
+  const [gasFees, setGasFees] = useState(null);
+
+  const fetchGasFees = async () => {
+    const Auth = btoa(
+      `${process.env.REACT_APP_INFURA_API_KEY}:${process.env.REACT_APP_INFURA_API_KEY_SECRET}`
+    );
+
+    try {
+      const { data } = await axios.get(
+        `https://gas.api.infura.io/networks/1/suggestedGasFees`, // Ethereum Mainnet
+        {
+          headers: { Authorization: `Basic ${Auth}` },
+        }
+      );
+      setGasFees(data);
+    } catch (error) {
+      console.error("Error fetching gas fees:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGasFees();
+  }, []);
 
   return (
     <VStack
@@ -49,6 +74,23 @@ const Dashboard = () => {
             {contractInteraction.totalCost} ETH
           </Badge>
         </Text>
+        {gasFees && (
+          <Box p="4" boxShadow="md" borderRadius="lg" bg="white">
+            <Text fontSize="md" fontWeight="bold" mb="2">
+              Suggested Gas Fees:
+            </Text>
+            <Text>
+              <strong>Low:</strong> {gasFees.low.suggestedMaxFeePerGas} Gwei
+            </Text>
+            <Text>
+              <strong>Medium:</strong> {gasFees.medium.suggestedMaxFeePerGas}{" "}
+              Gwei
+            </Text>
+            <Text>
+              <strong>High:</strong> {gasFees.high.suggestedMaxFeePerGas} Gwei
+            </Text>
+          </Box>
+        )}
       </Box>
     </VStack>
   );
