@@ -64,30 +64,43 @@ const Dashboard = () => {
         <Text>
           <strong>Gas Used:</strong> {contractInteraction.gasUsed}
         </Text>
-        <Text>
-          <strong>Gas Price:</strong> {contractInteraction.gasPrice} Gwei
-        </Text>
-        {/* Emphasize the Gas Cost */}
+
         <Text fontSize="md" fontWeight="bold">
-          <strong>Total Cost:</strong>{" "}
-          <Badge colorScheme="red" fontSize="0.8em">
+          Gas Price on ZKA Chain:
+        </Text>
+        <Text fontSize="md" fontWeight="bold">
+          <Badge colorScheme="green" fontSize="0.8em">
+            {contractInteraction.gasPrice} Gwei
+          </Badge>
+        </Text>
+        <Text fontSize="md" fontWeight="bold">
+          Total Cost on ZKA Chain:
+        </Text>
+        <Text fontSize="md" fontWeight="bold">
+          <Badge colorScheme="green" fontSize="0.8em">
             {contractInteraction.totalCost} ETH
           </Badge>
         </Text>
         {gasFees && (
-          <Box p="4" boxShadow="md" borderRadius="lg" bg="white">
-            <Text fontSize="md" fontWeight="bold" mb="2">
-              Suggested Gas Fees:
+          <Box>
+            <Text fontSize="md" fontWeight="bold">
+              Gas Price on Mainnet:
             </Text>
-            <Text>
-              <strong>Low:</strong> {gasFees.low.suggestedMaxFeePerGas} Gwei
+            <Text fontSize="md" fontWeight="bold">
+              <Badge colorScheme="red" fontSize="0.8em">
+                {gasFees.medium.suggestedMaxFeePerGas} Gwei
+              </Badge>
             </Text>
-            <Text>
-              <strong>Medium:</strong> {gasFees.medium.suggestedMaxFeePerGas}{" "}
-              Gwei
+            <Text fontSize="md" fontWeight="bold">
+              Estimated Cost on Mainnet:
             </Text>
-            <Text>
-              <strong>High:</strong> {gasFees.high.suggestedMaxFeePerGas} Gwei
+            <Text fontSize="md" fontWeight="bold">
+              <Badge colorScheme="red" fontSize="0.8em">
+                {(contractInteraction.gasUsed *
+                  gasFees.medium.suggestedMaxFeePerGas) /
+                  1e9}{" "}
+                ETH
+              </Badge>
             </Text>
           </Box>
         )}
