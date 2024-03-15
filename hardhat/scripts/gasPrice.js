@@ -8,14 +8,14 @@ const {
 async function main() {
   // deploy zkpAggregator Contract
   const [deployer] = await ethers.getSigners();
+  const feeData = await deployer.provider.getFeeData();
+  //   const zkProofAggregator = new ZkProofAggregator(deployer);
 
-  const zkProofAggregator = new ZkProofAggregator(deployer);
+  //   await zkProofAggregator.deploy();
 
-  await zkProofAggregator.deploy();
+  //   const zkaState = zkProofAggregator.getConfig();
 
-  const zkaState = zkProofAggregator.getConfig();
-
-  console.log(zkaState);
+  console.log(feeData);
 }
 
 main()

@@ -6,13 +6,20 @@ const EthereumContext = createContext();
 export const useEthereum = () => useContext(EthereumContext);
 
 const checkNetwork = async (provider) => {
-  // should be process.env, todo after establishing the test chain environment
-  // const expectedChainId = BigInt("0x7A69"); //31337
-  // const network = await provider.getNetwork();
-  // if (network.chainId !== expectedChainId) {
-  //   return false;
-  // }
-  return true;
+  const expectedChainId = process.env.REACT_APP_L2_CHAINID;
+  try {
+    const network = await provider.getNetwork();
+    if (network.chainId.toString() !== expectedChainId) {
+      console.log(
+        `Connected to chainId ${network.chainId}, but expected ${expectedChainId}`
+      );
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error checking network chainId:", error);
+    return false;
+  }
 };
 
 export const EthereumProvider = ({ children }) => {

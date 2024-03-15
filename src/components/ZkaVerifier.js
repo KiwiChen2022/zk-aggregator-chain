@@ -86,7 +86,8 @@ const ZkaVerifier = () => {
       );
       const zkpVerifierName = zkDappName;
       const url = "http://localhost:3000";
-      const deployer = await zkpproofAggregator.getConfig().signer.getAddress();
+      // const deployer = await zkpproofAggregator.getConfig().signer.getAddress();
+      const deployer = account;
 
       const { tx, computeZKAVerifierAddress } =
         await zkpproofAggregator.deployZKAVerifier(
