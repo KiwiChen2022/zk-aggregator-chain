@@ -40,62 +40,70 @@ const Dashboard = () => {
       border="1px"
       borderColor="gray.300"
     >
-      <Text fontSize="xl" fontWeight="bold" color="gray.700">
+      <Text fontSize="2xl" fontWeight="bold" color="gray.700">
         TransactionTracker
       </Text>
       <Box p="4" boxShadow="md" borderRadius="lg" bg="white">
-        <Text>
+        <Text fontSize="lg">
           <strong>Chain Name:</strong> {contractInteraction.chainName}
         </Text>
-        <Text>
+        <Text fontSize="lg">
           <strong>Chain ID:</strong> {contractInteraction.chainId}
         </Text>
-        <Text>
-          <strong>Operation:</strong> {contractInteraction.operationName}
+        <Text fontSize="lg" fontWeight="bold">
+          Operation:
         </Text>
-        <Text>
+        <Text fontSize="lg" fontWeight="bold">
+          <Badge colorScheme="purple" fontSize="1em">
+            {contractInteraction.operationName}
+          </Badge>
+        </Text>
+        {/* <Text>
+          <strong>Operation:</strong> {contractInteraction.operationName}
+        </Text> */}
+        <Text fontSize="lg">
           <strong>Transaction Hash:</strong>{" "}
           {contractInteraction.transactionHash}
         </Text>
-        <Text>
+        <Text fontSize="lg">
           <strong>Contract Address:</strong>{" "}
           {contractInteraction.contractAddress}
         </Text>
-        <Text>
+        <Text fontSize="lg">
           <strong>Gas Used:</strong> {contractInteraction.gasUsed}
         </Text>
 
-        <Text fontSize="md" fontWeight="bold">
+        <Text fontSize="lg" fontWeight="bold">
           Gas Price on ZKA Chain:
         </Text>
-        <Text fontSize="md" fontWeight="bold">
-          <Badge colorScheme="green" fontSize="0.8em">
+        <Text fontSize="lg" fontWeight="bold">
+          <Badge colorScheme="green" fontSize="1em">
             {contractInteraction.gasPrice} Gwei
           </Badge>
         </Text>
-        <Text fontSize="md" fontWeight="bold">
+        <Text fontSize="lg" fontWeight="bold">
           Total Cost on ZKA Chain:
         </Text>
-        <Text fontSize="md" fontWeight="bold">
-          <Badge colorScheme="green" fontSize="0.8em">
+        <Text fontSize="lg" fontWeight="bold">
+          <Badge colorScheme="green" fontSize="1em">
             {contractInteraction.totalCost} ETH
           </Badge>
         </Text>
         {gasFees && (
           <Box>
-            <Text fontSize="md" fontWeight="bold">
+            <Text fontSize="lg" fontWeight="bold">
               Gas Price on Mainnet:
             </Text>
-            <Text fontSize="md" fontWeight="bold">
-              <Badge colorScheme="red" fontSize="0.8em">
+            <Text fontSize="lg" fontWeight="bold">
+              <Badge colorScheme="red" fontSize="1em">
                 {gasFees.medium.suggestedMaxFeePerGas} Gwei
               </Badge>
             </Text>
-            <Text fontSize="md" fontWeight="bold">
+            <Text fontSize="lg" fontWeight="bold">
               Estimated Cost on Mainnet:
             </Text>
-            <Text fontSize="md" fontWeight="bold">
-              <Badge colorScheme="red" fontSize="0.8em">
+            <Text fontSize="lg" fontWeight="bold">
+              <Badge colorScheme="red" fontSize="1em">
                 {(contractInteraction.gasUsed *
                   gasFees.medium.suggestedMaxFeePerGas) /
                   1e9}{" "}

@@ -30,7 +30,7 @@ const CircomEditorPage = () => {
         <ZkaVerifier />
       </VStack>
       <Box
-        width={{ base: "100%", lg: "300px" }}
+        width={{ base: "100%", lg: "400px" }}
         flexShrink={0}
         height="fit-content"
         position="sticky"

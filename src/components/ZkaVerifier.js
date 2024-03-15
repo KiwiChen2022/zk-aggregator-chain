@@ -10,6 +10,7 @@ import {
   VStack,
   Input,
   Tooltip,
+  Divider,
 } from "@chakra-ui/react";
 import { ethers } from "ethers";
 import { setContractInteractionInfo } from "../features/contract/contractInteractionSlice";
@@ -179,7 +180,7 @@ const ZkaVerifier = () => {
         currentVerifier,
         encodedData
       );
-      await handleTransaction(tx, "zkpVerify");
+      await handleTransaction(tx, "zkp Verify");
 
       const proofTimeStamp = await zkpproofAggregator.checkProofVerifyStatus(
         currentVerifier,
@@ -228,6 +229,7 @@ const ZkaVerifier = () => {
         Register ZKA Verifier
       </Button>
 
+      <Divider />
       <Button
         onClick={verifyZKProof}
         isLoading={verifying}
