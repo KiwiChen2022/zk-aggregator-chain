@@ -41,6 +41,7 @@ const ZkaVerifier = () => {
     const chainName = network.name ? network.name : `Chain ID: ${chainId}`; // in case no name
     const transactionHash = txReceipt.hash;
 
+    console.log(tx);
     dispatch(
       setContractInteractionInfo({
         chainName: chainName,

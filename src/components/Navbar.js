@@ -40,6 +40,14 @@ const Navbar = () => {
             Playground
           </Button>
         </Link>
+        <Link
+          to="/merkle-proof"
+          style={{ textDecoration: "none", marginLeft: "16px" }}
+        >
+          <Button variant="solid" _hover={{ bg: "ethereum.700" }}>
+            L1 ZK VERIFICATION
+          </Button>
+        </Link>
       </Flex>
 
       <Flex align="center">
