@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract MerkleProof {
+
+contract MerkleProof  {
     error NotOwner();
-    error VerificationFailed(); 
     bytes32 public root;
     address public owner;
-
-    event VerifySuccess(bytes32 indexed leaf);
 
     constructor() {
         owner = msg.sender;
@@ -24,7 +22,7 @@ contract MerkleProof {
         root = _root;
     }
 
-    function verify(bytes32[] memory proof, bytes32 leaf) public {
+    function verify(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {
         bytes32 hash = leaf;
 
         for (uint256 i = 0; i < proof.length; i++) {
@@ -32,10 +30,6 @@ contract MerkleProof {
             hash = keccak256(abi.encodePacked(hash, proofElement));
         }
 
-        if (hash == root) {
-            emit VerifySuccess(leaf);
-        } else {
-            revert VerificationFailed();
-        }
+        return hash == root;
     }
 }

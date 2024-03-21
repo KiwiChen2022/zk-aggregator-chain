@@ -26,7 +26,7 @@ const CircomEditorPage = () => {
       >
         <CircomEditor />
         <ContractDeployer />
-        {/* <VerifierContractOrigin /> */}
+        <VerifierContractOrigin />
         <ZkaVerifier />
       </VStack>
       <Box

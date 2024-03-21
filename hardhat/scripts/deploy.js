@@ -9,13 +9,13 @@ async function main() {
   // deploy zkpAggregator Contract
   const [deployer] = await ethers.getSigners();
 
-  const zkProofAggregator = new ZkProofAggregator(deployer);
+  // const zkProofAggregator = new ZkProofAggregator(deployer);
 
-  await zkProofAggregator.deploy();
+  // await zkProofAggregator.deploy();
 
-  const zkaState = zkProofAggregator.getConfig();
+  // const zkaState = zkProofAggregator.getConfig();
 
-  console.log(zkaState);
+  // console.log(zkaState);
 
   const MerkleProof = await ethers.getContractFactory("MerkleProof");
 

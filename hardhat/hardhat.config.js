@@ -24,5 +24,15 @@ module.exports = {
       // chainId: 31337,
       gasPrice: 22300000000,
     },
+    sepolia: {
+      url: "	https://sepolia.infura.io/v3/0bd65fbc0b1a491489307c7cdcb029c1",
+      accounts: [`0x${PRIVATE_KEY}`],
+      chainId: 11155111,
+    },
+    vizing: {
+      url: "https://rpc-sepolia.vizing.com",
+      accounts: [`0x${PRIVATE_KEY}`],
+      chainId: 28516,
+    },
   },
 };
